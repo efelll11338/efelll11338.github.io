@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display sigma.txt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        pre {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <pre id="fileContent">Loading...</pre>
+    <script>
+        async function loadFile() {
+            try {
+                const response = await fetch('sigma.txt');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const text = await response.text();
+                document.getElementById('fileContent').textContent = text;
+            } catch (error) {
+                document.getElementById('fileContent').textContent = 'Failed to load file: ' + error.message;
+            }
+        }
+
+        loadFile();
+    </script>
+</body>
+</html>
